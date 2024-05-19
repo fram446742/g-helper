@@ -1040,6 +1040,10 @@ namespace GHelper
             Aura.SetColor(AppConfig.Get("aura_color"));
             Aura.SetColor2(AppConfig.Get("aura_color2"));
 
+            checkKeyboard.Checked = AppConfig.Is("extended");
+            Logger.WriteLine("Keyboard extended models: " + checkKeyboard.Checked);
+            Aura.ExtendModes = checkKeyboard.Checked;
+
             comboKeyboard.DropDownStyle = ComboBoxStyle.DropDownList;
             comboKeyboard.DataSource = new BindingSource(Aura.GetModes(), null);
             comboKeyboard.DisplayMember = "Value";
@@ -1893,6 +1897,16 @@ namespace GHelper
         private void ButtonFnLock_Click(object? sender, EventArgs e)
         {
             InputDispatcher.ToggleFnLock();
+        }
+
+        private void CheckKeyboard_CheckedChanged(object? sender, EventArgs e)
+        {
+
+            Logger.WriteLine("Keyboard extended modes: " + (checkKeyboard.Checked ? "on" : "off"));
+            AppConfig.Set("extended", checkKeyboard.Checked ? 1 : 0);
+            InitAura();
+            // DialogResult result = MessageBox.Show("Restart app to apply change", "Settings", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
         }
 
     }

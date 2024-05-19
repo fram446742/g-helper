@@ -89,6 +89,14 @@ namespace GHelper.USB
 
         static System.Timers.Timer timer = new System.Timers.Timer(1000);
 
+        private static bool extendModes;
+
+        public static bool ExtendModes
+        {
+            get { return extendModes; }
+            set { extendModes = value; }
+        }
+
         private static Dictionary<AuraMode, string> _modesSingleColor = new Dictionary<AuraMode, string>
         {
             { AuraMode.AuraStatic, Properties.Strings.AuraStatic },
@@ -186,6 +194,14 @@ namespace GHelper.USB
             if (AppConfig.IsStrix() && !AppConfig.IsStrixLimitedRGB())
             {
                 return _modesStrix;
+            }
+
+            if (AppConfig.IsStrix())
+            {
+                Logger.WriteLine("Is Strix Limited RGB");
+                Logger.WriteLine(extendModes ? "Extended mode" : "Not extended mode");
+                Logger.WriteLine("extendModes: " + extendModes);
+                return extendModes ? _modesStrix : _modes;
             }
 
             return _modes;
